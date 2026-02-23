@@ -21,8 +21,10 @@ function calculateAge()
     }
     if (dob > now) 
         resultElement.textContent = "Invalid date.";
-    else resultElement.textContent = `Age: ${y}y ${m}m ${d}d`;
+    else 
+        resultElement.textContent = `Age: ${y}y ${m}m ${d}d`;
 }
+
 
 
 
