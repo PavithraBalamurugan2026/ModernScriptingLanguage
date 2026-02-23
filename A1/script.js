@@ -11,7 +11,8 @@ function calculateAge()
     let d = now.getDate() - dob.getDate();
     if (d < 0) 
     {
-        m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+        m--; 
+        d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
     }
     if (m < 0) 
     {
@@ -21,6 +22,7 @@ function calculateAge()
         resultElement.textContent = "Invalid date.";
     else resultElement.textContent = `Age: ${y}y ${m}m ${d}d`;
 }
+
 
 
 
