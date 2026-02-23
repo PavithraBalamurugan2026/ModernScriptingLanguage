@@ -1,116 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logic Gate Tester</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-            width: 350px;
-        }
-        h2 { color: #333; margin-top: 0; }
-        .status {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 0.9em;
-            border: 1px solid #eee;
-        }
-        select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            cursor: pointer;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover { background-color: #764ba2; }
-        #resultDisplay {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #444;
-            border-left: 5px solid #667eea;
-            background: #f0f4ff;
-        }
-    </style>
+<title>Logic Gate Tester</title>
+<style>
+body {
+font-family: 'Segoe UI', Arial, sans-serif;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 0;
+}
+.container {
+background: white;
+padding: 2rem;
+border-radius: 15px;
+box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+text-align: center;
+width: 350px;
+}
+h2 {
+color: darkslategray; 
+margin-top: 0;
+}
+.status {
+background: whitesmoke;
+padding: 10px;
+border-radius: 8px;
+margin-bottom: 20px;
+font-size: 0.9em;
+border: 1px solid black;
+}
+select {
+width: 100%;
+padding: 12px;
+margin-bottom: 15px;
+border: 2px solid black;
+border-radius: 8px;
+outline: none;
+cursor: pointer;
+}
+button {
+width: 100%;
+padding: 12px;
+background-color: blue;
+color: white;
+border: none;
+border-radius: 8px;
+font-weight: bold;
+cursor: pointer;
+transition: 0.3s;
+}
+button:hover {
+background-color: purple;
+}
+#resultDisplay {
+margin-top: 20px;
+padding: 15px;
+border-radius: 8px;
+font-size: 1.1em;
+font-weight: bold;
+color: grey;
+border-left: 5px solid cornflowerblue; 
+background: aliceblue; 
+}
+</style>
 </head>
 <body>
-
 <div class="container">
-    <h2>Logic Tester</h2>
-    <div class="status">Variables: <b>a = true</b> | <b>b = false</b></div>
-
-    <select id="choice">
-        <option value="1">AND Operation (&&)</option>
-        <option value="2">OR Operation (||)</option>
-        <option value="3">NOT Operation (!a)</option>
-    </select>
-
-    <button onclick="calculate()">Run Logic</button>
-
-    <div id="resultDisplay">Result will appear here...</div>
+<h2>Logic Tester</h2>
+<div class="status">Variables: <b>a = true</b> | <b>b = false</b></div>
+<select id="choice">
+<option value="1">AND Operation (&&)</option>
+<option value="2">OR Operation (||)</option>
+<option value="3">NOT Operation (!a)</option>
+</select>
+<button onclick="calculate()">Run Logic</button>
+<div id="resultDisplay">Result will appear here...</div>
 </div>
-
 <script>
-    function calculate() {
-        // 1. Get references to the elements
-        const choice = document.getElementById("choice").value;
-        const display = document.getElementById("resultDisplay");
-        
-        // 2. Define your logic variables
-        const a = true;
-        const b = false;
-        let output = "";
-
-        // 3. Execute logic based on selection
-        switch (choice) {
-            case "1":
-                output = `Result: ${a && b}`;
-                break;
-            case "2":
-                output = `Result: ${a || b}`;
-                break;
-            case "3":
-                output = `Result: ${!a}`;
-                break;
-            default:
-                output = "Error: Invalid Choice";
-        }
-
-        // 4. Update the UI
-        display.innerText = output;
-    }
+function calculate() {
+const choice = document.getElementById("choice").value;
+const display = document.getElementById("resultDisplay");
+const a = true;
+const b = false;
+let output = "";
+switch (choice) {
+case "1":
+output = `Result: ${a && b}`;
+break;
+case "2":
+output = `Result: ${a || b}`;
+break;
+case "3":
+output = `Result: ${!a}`;
+break;
+default:
+output = "Error: Invalid Choice";
+}
+display.innerText = output;
+}
 </script>
-
 </body>
 </html>
