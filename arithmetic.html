@@ -1,86 +1,38 @@
-<html>
+<html ng-app="calcApp">
 <head>
-<title>Arithmetic Calculator</title>
-<script src="angular.min.js"></script>
-<style>
-body {
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-margin: 0;
-background-color: whitesmoke; 
-font-family: Arial, sans-serif;
-}
-.calc-card {
-background: white; 
-padding: 30px;
-border-radius: 12px;
-box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-text-align: center;
-width: 340px;
-}
-input {
-width: 90%;
-padding: 12px;
-margin: 10px 0;
-border: 1px solid silver;
-border-radius: 5px;
-font-size: 16px;
-}
-button {
-width: 98%;
-padding: 12px;
-background-color: dodgerblue; 
-color: white; 
-border: none;
-border-radius: 5px;
-font-size: 16px;
-cursor: pointer;
-margin-top: 10px;
-}
-button:hover {
-background-color: royalblue; 
-}
-.results {
-margin-top: 25px;
-text-align: left;
-border-top: 1px solid gainsboro; 
-padding-top: 15px;
-}
-.results p {
-margin: 10px 0;
-font-size: 17px;
-}
-b {
-color: black; 
-}
-</style>
+<title>Arithmetic Operations</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
-<body ng-controller="MathController">
-<div class="calc-card">
+<body ng-controller="CalcController">
 <h2>Arithmetic Operations</h2>
-<input type="number" name="n1" id="n1" ng-model="val1" placeholder="Number 1">
-<input type="number" name="n2" id="n2" ng-model="val2" placeholder="Number 2">
-<button ng-click="runMath()">Calculate</button>
-<div class="results">
-<p>Addition: <b>{{sum}}</b></p>
-<p>Subtraction: <b>{{sub}}</b></p>
-<p>Multiplication: <b>{{mul}}</b></p>
-<p>Division: <b>{{div}}</b></p>
-</div>
-</div>
+<label for="num1">Enter Number 1:</label>
+<input type="number" id="num1" ng-model="num1"><br><br>
+<label for="num2">Enter Number 2:</label>
+<input type="number" id="num2" ng-model="num2"><br><br>
+<button ng-click="add()">Add</button>
+<button ng-click="sub()">Subtract</button>
+<button ng-click="mul()">Multiply</button>
+<button ng-click="div()">Divide</button>
+<h3>Result: {{result}}</h3>
 <script>
-var app = angular.module('mathApp', []);
-app.controller('MathController', function($scope, $rootScope) {
-$scope.runMath = function() {
-var a = Number($scope.val1 || 0);
-var b = Number($scope.val2 || 0);
-$scope.sum = a + b;
-$scope.sub = a - b;
-$scope.mul = a * b;
-$scope.div = (b !== 0) ? (a / b).toFixed(2) : "Error (Div by 0)";
-$rootScope.hiddenGlobalResult = $scope.sum;
+var app = angular.module("calcApp", []);
+app.controller("CalcController", function($scope)
+{
+$scope.add = function()
+{
+$scope.result = $scope.num1 + $scope.num2;
+};
+$scope.sub = function() 
+{
+$scope.result = $scope.num1 - $scope.num2;
+};
+$scope.mul = function()
+{
+$scope.result = $scope.num1 * $scope.num2;
+};
+$scope.div = function()
+{
+$scope.result = $scope.num1 / $scope.num2;
 };
 });
 </script>
