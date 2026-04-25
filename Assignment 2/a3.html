@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Custom Filter and Component</title>
+    <!-- Loading AngularJS from Google CDN -->
+    <script src="angular.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; width: fit-content; background: #f9f9f9; }
+        input { padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .result { color: #007bff; font-weight: bold; }
+    </style>
+</head>
+<body ng-app="myApp">
+
+    <div class="card">
+        <h3>AngularJS Demo</h3>
+        <!-- The component is invoked here using kebab-case -->
+        <user-greeting></user-greeting>
+    </div>
+
+    <script>
+        // 1. Initialize the application module
+        var app = angular.module('myApp', []);
+
+        // 2. Create a custom filter named 'reverse'
+        app.filter('reverse', function() {
+            return function(input) {
+                if (!input) return '';
+                return input.split('').reverse().join('');
+            };
+        });
+
+        // 3. Create a custom component named 'userGreeting'
+        app.component('userGreeting', {
+            // The template uses the 'reverse' filter via the pipe symbol (|)
+            template: `
+                <div>
+                    <label>Enter Name:</label><br>
+                    <input type="text" ng-model="$ctrl.username">
+                    <p>Original: <span>{{$ctrl.username}}</span></p>
+                    <p>Reversed: <span class="result">{{$ctrl.username | reverse}}</span></p>
+                </div>
+            `,
+            controller: function() {
+                // Default value for the component's model
+                this.username = 'AngularJS';
+            }
+        });
+    </script>
+
+</body>
+</html>
