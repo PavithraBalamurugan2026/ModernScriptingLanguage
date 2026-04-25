@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AngularJS Filters in Tables</title>
+    <!-- Load Angular from your local file -->
+    <script src="angular.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; background: #f0f2f5; }
+        .frame-box { border: 2px solid #333; border-radius: 10px; background: white; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .title { background: #222; color: white; padding: 12px; font-size: 14px; font-weight: bold; text-align: center; }
+        iframe { width: 100%; height: 300px; border: none; }
+    </style>
+</head>
+<body>
+
+    <div class="frame-box">
+        <div class="title">1. Uppercase & Lowercase Filters</div>
+        <iframe id="filterFrame1"></iframe>
+    </div>
+
+    <div class="frame-box">
+        <div class="title">2. Currency Filter</div>
+        <iframe id="filterFrame2"></iframe>
+    </div>
+
+    <div class="frame-box">
+        <div class="title">3. Date Filter</div>
+        <iframe id="filterFrame3"></iframe>
+    </div>
+
+    <div class="frame-box">
+        <div class="title">4. OrderBy Filter (Sorting)</div>
+        <iframe id="filterFrame4"></iframe>
+    </div>
+
+    <script>
+        const filterContents = {
+            filterFrame1: `
+                <h3>String Formatting</h3>
+                <table border="1" style="width:100%; border-collapse:collapse; text-align:center;">
+                    <tr style="background:#007bff; color:white;"><th>Original</th><th>Uppercase</th><th>Lowercase</th></tr>
+                    <tr ng-repeat="name in ['Laptop', 'Keyboard', 'Monitor']">
+                        <td>{{name}}</td>
+                        <td>{{name | uppercase}}</td>
+                        <td>{{name | lowercase}}</td>
+                    </tr>
+                </table>`,
+            filterFrame2: `
+                <h3>Price Formatting</h3>
+                <table border="1" style="width:100%; border-collapse:collapse; text-align:center;">
+                    <tr style="background:#28a745; color:white;"><th>Item</th><th>Raw Value</th><th>Currency Format</th></tr>
+                    <tr ng-repeat="item in [{n:'Phone', v:699}, {n:'Charger', v:19.99}, {n:'Case', v:15}]">
+                        <td>{{item.n}}</td>
+                        <td>{{item.v}}</td>
+                        <td style="font-weight:bold;">{{item.v | currency}}</td>
+                    </tr>
+                </table>`,
+            filterFrame3: `
+                <h3>Date Formatting</h3>
+                <table border="1" style="width:100%; border-collapse:collapse; text-align:center;">
+                    <tr style="background:#ffc107;"><th>Event</th><th>Full Format</th><th>Short Format</th></tr>
+                    <tr ng-repeat="e in [{n:'Project Start', d:1713960000000}, {n:'Project End', d:1716552000000}]">
+                        <td>{{e.n}}</td>
+                        <td>{{e.d | date:'fullDate'}}</td>
+                        <td>{{e.d | date:'dd-MM-yyyy'}}</td>
+                    </tr>
+                </table>`,
+            filterFrame4: `
+                <h3>Auto-Sorting Table</h3>
+                <table border="1" style="width:100%; border-collapse:collapse; text-align:center;">
+                    <tr style="background:#dc3545; color:white;"><th>Name (A-Z)</th><th>Rank</th></tr>
+                    <tr ng-repeat="p in [{n:'Zebra', r:5}, {n:'Apple', r:1}, {n:'Mango', r:3}] | orderBy:'n'">
+                        <td>{{p.n}}</td>
+                        <td>{{p.r}}</td>
+                    </tr>
+                </table>`
+        };
+
+        function injectFilterFrame(id, htmlContent) {
+            const iframe = document.getElementById(id);
+            if (!iframe) return;
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(`
+                <html>
+                <head>
+                    <style>
+                        body { font-family: sans-serif; padding: 15px; }
+                        table { margin-top: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+                        th, td { padding: 10px; border: 1px solid #ddd; }
+                        h3 { color: #444; margin-top: 0; }
+                    </style>
+                    <script>window.angular = window.parent.angular;<\/script>
+                </head>
+                <body ng-app="">
+                    ${htmlContent}
+                    <script>
+                        if(window.parent.angular) {
+                            window.parent.angular.bootstrap(document.body, []);
+                        }
+                    <\/script>
+                </body>
+                </html>
+            `);
+            doc.close();
+        }
+
+        // This function waits for Angular to be ready before injecting
+        function init() {
+            if (window.angular) {
+                Object.keys(filterContents).forEach(id => injectFilterFrame(id, filterContents[id]));
+            } else {
+                setTimeout(init, 100); // Try again in 100ms
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
