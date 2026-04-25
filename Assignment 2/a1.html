@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Angular Directives in Frames</title>
+    <!-- Load Angular once in the main window -->
+    <script src="angular.min.js"></script>
+    <style>
+        body { font-family: sans-serif; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; background: #f4f4f9; }
+        .frame-box { border: 2px solid #333; border-radius: 8px; background: white; overflow: hidden; }
+        .title { background: #333; color: white; padding: 10px; font-size: 14px; font-weight: bold; }
+        iframe { width: 100%; height: 250px; border: none; }
+    </style>
+</head>
+<body>
+
+    <div class="frame-box">
+        <div class="title">1. ng-if (Conditional Rendering)</div>
+        <iframe id="frame1"></iframe>
+    </div>
+
+    <div class="frame-box">
+        <div class="title">2. ng-repeat (List Rendering)</div>
+        <iframe id="frame2"></iframe>
+    </div>
+
+    <div class="frame-box">
+        <div class="title">3. ng-model (Data Binding)</div>
+        <iframe id="frame3"></iframe>
+    </div>
+
+    <div class="frame-box">
+        <div class="title">4. ng-class (Dynamic Styling)</div>
+        <iframe id="frame4"></iframe>
+    </div>
+
+    <script>
+        // Content for each frame
+        const frames = {
+            frame1: `<div ng-app="" ng-init="visible=true">
+                        <button ng-click="visible = !visible">Toggle Text</button>
+                        <p ng-if="visible">✅ This element is conditionally rendered.</p>
+                     </div>`,
+            frame2: `<div ng-app="" ng-init="fruits=['Apple', 'Banana', 'Orange']">
+                        <strong>Fruit List:</strong>
+                        <ul><li ng-repeat="f in fruits">{{f}}</li></ul>
+                     </div>`,
+            frame3: `<div ng-app="">
+                        <input type="text" ng-model="username" placeholder="Type here...">
+                        <p>Live Preview: <strong>{{username}}</strong></p>
+                     </div>`,
+            frame4: `<style>.highlight { color: blue; font-weight: bold; }</style>
+                     <div ng-app="" ng-init="active=false">
+                        <button ng-click="active = !active">Toggle Style</button>
+                        <p ng-class="{'highlight': active}">Click to change my style!</p>
+                     </div>`
+        };
+
+        // Function to inject Angular + Content into iframes
+        function injectFrame(id, html) {
+            const iframe = document.getElementById(id);
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            // We pass the Angular object from the parent to the child
+            doc.write(`
+                <html>
+                <head>
+                    <script>window.angular = window.parent.angular;<\/script>
+                </head>
+                <body style="padding:20px; font-family:sans-serif;">
+                    ${html}
+                    <script>
+                        // Manually bootstrap angular since it was loaded after the DOM
+                        window.parent.angular.bootstrap(document.body, []);
+                    <\/script>
+                </body>
+                </html>
+            `);
+            doc.close();
+        }
+
+        // Run injection after a small delay to ensure angular.min.js is ready
+        window.onload = () => {
+            Object.keys(frames).forEach(id => injectFrame(id, frames[id]));
+        };
+    </script>
+</body>
+</html>
